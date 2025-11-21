@@ -1,0 +1,196 @@
+/* ======== ESTILO GENERAL ======== */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Poppins', sans-serif;
+    min-height: 100vh;
+    background: linear-gradient(135deg, #1A3149, #C7D3D5, #E3E9EA);
+    background-size: 400% 400%;
+    animation: gradientMove 12s ease infinite;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    padding: 50px 0;
+    position: relative;
+    overflow-x: hidden;
+}
+
+body::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: rgba(26, 49, 73, 0.25);
+    backdrop-filter: blur(3px);
+    z-index: -1;
+}
+
+@keyframes gradientMove {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+/* ======== CONTENEDOR PRINCIPAL ======== */
+.panel-container {
+    background: rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(6px);
+    border-radius: 20px;
+    padding: 40px 50px;
+    width: 850px;
+    text-align: center;
+    color: #fff;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.25);
+    animation: fadeIn 1s ease forwards;
+    opacity: 0;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* ======== CABECERA ======== */
+header {
+    margin-bottom: 25px;
+}
+
+h1 {
+    font-size: 24px;
+    font-weight: 600;
+    margin-bottom: 5px;
+}
+
+h2 {
+    font-size: 16px;
+    font-weight: 400;
+    color: rgba(255, 255, 255, 0.85);
+}
+
+/* ======== INFORMACIÓN ======== */
+.info {
+    text-align: left;
+    background: rgba(255, 255, 255, 0.12);
+    border-radius: 12px;
+    padding: 20px;
+    margin: 20px 0;
+}
+
+.info p {
+    margin-bottom: 8px;
+    font-size: 14px;
+}
+
+.info strong {
+    color: #C7D3D5;
+}
+
+/* ======== ARCHIVOS ======== */
+.archivos {
+    text-align: left;
+}
+
+.archivo-item {
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
+    padding: 12px 15px;
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    transition: background 0.3s;
+}
+
+.archivo-item:hover {
+    background: rgba(255, 255, 255, 0.18);
+}
+
+.archivo-item a {
+    color: #fff;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 14px;
+}
+
+/* === GALERÍA DE PRESELECCIÓN === */
+
+.galeria {
+    margin-top: 20px;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+    gap: 15px;
+}
+
+.foto {
+    position: relative;
+    border-radius: 12px;
+    overflow: hidden;
+    cursor: pointer;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.foto img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+/* Efecto hover */
+.foto:hover {
+    transform: scale(1.05);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.25);
+}
+
+/* Cuando está seleccionada */
+.foto.seleccionada {
+    outline: 4px solid #C7D3D5;
+    box-shadow: 0 0 20px rgba(199, 211, 213, 0.7);
+}
+
+.guardar-btn {
+    margin-top: 20px;
+    padding: 12px 20px;
+    font-size: 15px;
+    font-weight: 600;
+    border: none;
+    border-radius: 10px;
+    background-color: #1A3149;
+    color: white;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.guardar-btn:hover {
+    background-color: #2b4d6a;
+}
+
+/* ======== FOOTER ======== */
+.acciones {
+    margin-top: 30px;
+}
+
+.acciones a {
+    display: inline-block;
+    background: #1A3149;
+    color: #fff;
+    padding: 10px 20px;
+    border-radius: 10px;
+    text-decoration: none;
+    margin: 5px;
+    font-weight: 600;
+    transition: background 0.3s;
+}
+
+.acciones a:hover {
+    background: #2b4d6a;
+}
+
+footer {
+    margin-top: 25px;
+    font-size: 12px;
+    opacity: 0.7;
+}

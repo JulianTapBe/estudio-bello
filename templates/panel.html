@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Mi Panel - Estudio Bello</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/panel.css') }}">
+    <!-- Favicon -->
+    <link rel="icon" href="{{ url_for('static', filename='images/LOGO favicon.ico') }}" type="image/x-icon">
+</head>
+<body>
+    <div class="panel-container">
+        <header>
+            <h1>Bienvenido, {{ nombre }}</h1>
+            <h2>Panel de cliente - Estudio Bello</h2>
+        </header>
+
+        <div class="info">
+            <p><strong>Correo:</strong> {{ email }}</p>
+            <p><strong>Paquete contratado:</strong> {{ paquete if paquete else "Sin asignar aún" }}</p>
+        </div>
+
+        <div class="archivos">
+            <div class="archivo-item">
+                <span>📄 Contrato:</span>
+                {% if contrato %}
+                    <a href="{{ url_for('static', filename='clientes/' + contrato) }}" download>Descargar</a>
+                {% else %}
+                    <span>No disponible</span>
+                {% endif %}
+            </div>
+
+            <div class="archivo-item">
+                <span>📸 Fotos:</span>
+                {% if fotos %}
+                    <a href="{{ url_for('static', filename='clientes/' + fotos) }}" download>Descargar</a>
+                {% else %}
+                    <span>No disponible</span>
+                {% endif %}
+            </div>
+
+            <div class="archivo-item">
+                <span>🎬 Video:</span>
+                {% if video %}
+                    <a href="{{ url_for('static', filename='clientes/' + video) }}" download>Descargar</a>
+                {% else %}
+                    <span>No disponible</span>
+                {% endif %}
+            </div>
+        </div>
+
+        <!-- 🖼️ SELECCIÓN DE FOTOS -->
+        <h3>Selecciona tus fotos favoritas</h3>
+        <p>Puedes elegir hasta {{ limite_fotos }} fotos.</p>
+
+        <div class="galeria">
+            {% for i in range(1, total_fotos + 1) %}
+            <div class="foto" onclick="toggleSeleccion('{{ i }}')">
+                <img src="{{ url_for('static', filename='clientes/' + nombre + '/preseleccion/' + i|string + '.jpg') }}" alt="Foto {{ i }}">
+            </div>
+            {% endfor %}
+        </div>
+
+        <button class="guardar-btn" onclick="guardarSeleccion()">Guardar selección</button>
+
+        <script>
+            const limite_fotos = {{ limite_fotos|tojson }};
+            const seleccionadas = new Set();
+
+            function toggleSeleccion(id) {
+                const foto = document.querySelector(`img[alt='Foto ${id}']`);
+                if (seleccionadas.has(id)) {
+                    seleccionadas.delete(id);
+                    foto.parentElement.classList.remove('seleccionada');
+                } else if (seleccionadas.size < limite_fotos) {
+                    seleccionadas.add(id);
+                    foto.parentElement.classList.add('seleccionada');
+                } else {
+                    alert("Has alcanzado el límite de selección.");
+                }
+            }
+
+            async function guardarSeleccion() {
+                const seleccion = Array.from(seleccionadas);
+                const res = await fetch("/guardar_seleccion", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ seleccion })
+                });
+                if (res.ok) alert("¡Selección guardada exitosamente!");
+                else alert("Hubo un error al guardar la selección.");
+            }
+
+            document.addEventListener("contextmenu", e => e.preventDefault());
+
+            // Cargar selección guardada
+{% if seleccionadas %}
+const seleccion_inicial = "{{ seleccionadas }}".split(",");
+seleccion_inicial.forEach(id => {
+    if (id.trim() !== "") {
+        seleccionadas.add(id);
+        const foto = document.querySelector(`img[alt='Foto ${id}']`);
+        if (foto) foto.parentElement.classList.add('seleccionada');
+    }
+});
+{% endif %}
+        </script>
+
+        <div class="acciones">
+            <a href="{{ url_for('index') }}">Volver al inicio</a>
+            <a href="{{ url_for('logout') }}">Cerrar sesión</a>
+        </div>
+
+        <footer>
+            &copy; 2025 Estudio Bello | Todos los derechos reservados
+        </footer>
+    </div>
+</body>
+</html>

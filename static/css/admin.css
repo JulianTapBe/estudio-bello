@@ -1,0 +1,189 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Poppins', sans-serif;
+    background: linear-gradient(135deg, #1A3149, #C7D3D5, #E3E9EA);
+    background-size: 400% 400%;
+    animation: gradientMove 15s ease infinite;
+    height: 100vh;
+    position: relative; /* 👈 importante para el pseudo-elemento */
+    overflow: hidden;
+    color: #fff;
+}
+
+body::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: rgba(26, 49, 73, 0.25);
+    backdrop-filter: blur(3px); /* 👈 difumina solo el fondo */
+    z-index: -1;
+}
+
+@keyframes gradientMove {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+/* ======== CONTENEDOR PRINCIPAL ======== */
+.dashboard-container {
+    display: flex;
+    height: 100%;
+}
+
+/* ======== SIDEBAR ======== */
+.sidebar {
+    width: 260px;
+    background: rgba(26, 49, 73, 0.6);
+    backdrop-filter: blur(10px);
+    padding: 30px 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    box-shadow: 5px 0 20px rgba(0, 0, 0, 0.3);
+}
+
+.logo-container {
+    text-align: center;
+}
+
+.logo {
+    width: 200px;
+    margin-bottom: 10px;
+    filter: drop-shadow(0 4px 10px rgba(0, 0, 0, 0.3));
+}
+
+.sidebar h2 {
+    font-size: 18px;
+    font-weight: 600;
+    color: #fff;
+}
+
+.nav-menu {
+    margin-top: 40px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.nav-menu a {
+    color: #fff;
+    text-decoration: none;
+    padding: 12px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    transition: background 0.3s;
+}
+
+.nav-menu a:hover,
+.nav-menu a.active {
+    background: rgba(255, 255, 255, 0.2);
+}
+
+.logout {
+    background: rgba(255, 60, 60, 0.2);
+}
+
+.logout:hover {
+    background: rgba(255, 60, 60, 0.4);
+}
+
+/* ======== CONTENIDO PRINCIPAL ======== */
+.main-content {
+    flex: 1;
+    padding: 30px 50px;
+    overflow-y: auto;
+}
+
+header h1 {
+    font-size: 28px;
+    font-weight: 600;
+}
+
+header p {
+    color: rgba(255, 255, 255, 0.85);
+    margin-bottom: 25px;
+}
+
+/* ======== TABLA ======== */
+.table-section {
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(8px);
+    border-radius: 15px;
+    padding: 20px;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
+    overflow-x: auto;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    color: #fff;
+    text-align: left;
+}
+
+thead {
+    background: rgba(26, 49, 73, 0.7);
+}
+
+th, td {
+    padding: 12px 15px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+tbody tr:hover {
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.acciones {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+
+.btn {
+    padding: 8px 12px;
+    border-radius: 8px;
+    border: none;
+    cursor: pointer;
+    font-weight: 600;
+    color: #fff;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    transition: all 0.3s ease;
+}
+
+.btn.editar {
+    background: rgba(50, 150, 255, 0.4);
+}
+
+.btn.editar:hover {
+    background: rgba(50, 150, 255, 0.6);
+}
+
+.btn.notificar {
+    background: rgba(0, 255, 150, 0.4);
+}
+
+.btn.notificar:hover {
+    background: rgba(0, 255, 150, 0.6);
+}
+
+/* ======== FOOTER ======== */
+footer {
+    margin-top: 25px;
+    text-align: center;
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 13px;
+}

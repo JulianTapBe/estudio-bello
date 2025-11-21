@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Iniciar sesión - Estudio Bello</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/login.css') }}">
+    <!-- Favicon -->
+    <link rel="icon" href="{{ url_for('static', filename='images/LOGO favicon.ico') }}" type="image/x-icon">
+</head>
+<body>
+    <div class="login-container">
+        <div class="login-box">
+            <div class="logo-container">
+                <img src="{{ url_for('static', filename='images/LOGO personal sin fondo.png') }}" alt="Estudio Bello" class="logo">
+            </div>
+
+            <h2>Iniciar sesión</h2>
+            <form method="POST">
+                <div class="input-group">
+                    <span class="icon">📧</span>
+                    <input type="email" name="email" placeholder="Correo electrónico" required>
+                </div>
+
+                <div class="input-group">
+                    <span class="icon">🔒</span>
+                    <input type="password" name="password" placeholder="Contraseña" required>
+                </div>
+
+                <button type="submit">Entrar</button>
+            </form>
+
+            <p class="register-link">
+                ¿No tienes cuenta? <a href="{{ url_for('register') }}">Regístrate aquí</a>
+            </p>
+        </div>
+    </div>
+</body>
+</html>

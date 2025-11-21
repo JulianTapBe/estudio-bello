@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Editar Cliente</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <!-- Favicon -->
+    <link rel="icon" href="{{ url_for('static', filename='images/LOGO favicon.ico') }}" type="image/x-icon">
+</head>
+<body>
+    <h1>Editar datos de {{ usuario.nombre }}</h1>
+
+    <form method="POST" enctype="multipart/form-data">
+        <label>Paquete:</label>
+        <input type="text" name="paquete" value="{{ usuario.paquete or '' }}"><br><br>
+
+        <label>Contrato (PDF):</label>
+        <input type="file" name="contrato"><br>
+        {% if usuario.contrato %}
+            <small>Archivo actual: {{ usuario.contrato }}</small><br>
+        {% endif %}<br>
+
+        <label>Fotos (ZIP):</label>
+        <input type="file" name="fotos"><br>
+        {% if usuario.fotos %}
+            <small>Archivo actual: {{ usuario.fotos }}</small><br>
+        {% endif %}<br>
+
+        <label>Video (MP4):</label>
+        <input type="file" name="video"><br>
+        {% if usuario.video %}
+            <small>Archivo actual: {{ usuario.video }}</small><br>
+        {% endif %}<br>
+
+        <button type="submit">Guardar cambios</button>
+    </form>
+
+    <br>
+    <a href="{{ url_for('admin') }}">Volver al panel</a>
+</body>
+</html>

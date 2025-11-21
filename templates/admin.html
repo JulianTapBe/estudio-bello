@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Panel de Administración - Estudio Bello</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/admin.css') }}">
+    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+    <!-- Favicon -->
+    <link rel="icon" href="{{ url_for('static', filename='images/LOGO favicon.ico') }}" type="image/x-icon">
+</head>
+<body>
+    <div class="dashboard-container">
+
+        <aside class="sidebar">
+            <div class="logo-container">
+                <img src="{{ url_for('static', filename='images/LOGO personal sin fondo.png') }}" alt="Logo Estudio Bello" class="logo">
+                <h2>Estudio</h2>
+            </div>
+
+            <nav class="nav-menu">
+                <a href="{{ url_for('admin') }}" class="active"><i class="fas fa-users"></i> Clientes</a>
+                <a href="{{ url_for('index') }}"><i class="fas fa-home"></i> Volver al inicio</a>
+                <a href="{{ url_for('logout') }}" class="logout"><i class="fas fa-sign-out-alt"></i> Cerrar sesión</a>
+            </nav>
+        </aside>
+
+        <main class="main-content">
+            <header>
+                <h1>Panel de Administración</h1>
+                <p>Gestión de clientes registrados</p>
+            </header>
+
+            <section class="table-section">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Nombre</th>
+                            <th>Correo</th>
+                            <th>Paquete</th>
+                            <th>Contrato</th>
+                            <th>Fotos</th>
+                            <th>Video</th>
+                            <th>Selección</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for user in usuarios %}
+                        <tr>
+                            <td>{{ user.id }}</td>
+                            <td>{{ user.nombre }}</td>
+                            <td>{{ user.email }}</td>
+                            <td>{{ user.paquete or '—' }}</td>
+                            <td>{{ user.contrato or '—' }}</td>
+                            <td>{{ user.fotos or '—' }}</td>
+                            <td>{{ user.video or '—' }}</td>
+                            <td>{{ user.seleccionadas or "—" }}</td>
+                            <td class="acciones">
+                                <a href="{{ url_for('editar_cliente', user_id=user.id) }}" class="btn editar">
+                                    <i class="fas fa-edit"></i> Editar
+                                </a>
+                                <form action="{{ url_for('enviar_notificacion', user_id=user.id) }}" method="POST" style="display:inline;">
+                                    <button type="submit" class="btn notificar">
+                                        <i class="fas fa-paper-plane"></i> Notificar
+                                    </button>
+                                </form>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </section>
+
+            <footer>
+                <p>&copy; 2025 Estudio Bello | Panel de administración</p>
+            </footer>
+        </main>
+    </div>
+</body>
+</html>

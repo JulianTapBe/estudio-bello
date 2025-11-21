@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JulianTapBe</title>
+    
+    <!-- Fuentes y estilos -->
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    
+    <!-- Favicon -->
+    <link rel="icon" href="{{ url_for('static', filename='images/LOGO favicon.ico') }}" type="image/x-icon">
+
+    <style>
+        /* Modal styles */
+        .modal {
+            visibility: hidden;
+            position: fixed;
+            z-index: 1003;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.8);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            opacity: 0;
+            transition: opacity 0.3s ease-in-out, visibility 0.3s ease-in-out;
+        }
+
+        .modal.show {
+            visibility: visible;
+            opacity: 1;
+        }
+
+        .modal-content {
+            max-width: 90%;
+            max-height: 90%;
+            border-radius: 8px;
+            box-shadow: 0px 4px 10px rgba(255, 255, 255, 0.2);
+            animation: fadeIn 0.3s ease-in-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: scale(0.9); }
+            to { opacity: 1; transform: scale(1); }
+        }
+
+        .close {
+            position: absolute;
+            top: 15px;
+            right: 25px;
+            color: white;
+            font-size: 30px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="logo-container">
+            <nav class="menu">
+                <img src="{{ url_for('static', filename='images/LOGO personal sin fondo.png') }}" alt="Logo Estudio Bello" class="logo">
+            </nav>
+            <h1></h1>
+        </div>
+        <nav>
+            <ul>
+                <li><a href="#inicio">Inicio</a></li>
+                <li><a href="#portafolio">Portafolio</a></li>
+                <li><a href="#paquetes">Paquetes</a></li>
+                <li><a href="#sobremi">Sobre mí</a></li>
+                <li><a href="#contacto">Contacto</a></li>
+                <li><a href="/login">Mi cuenta</a></li> <!-- Nuevo botón -->
+            </ul>
+        </nav>
+    </header>
+
+    <section id="inicio" style="margin: 0; padding: 0;">
+        <h2>¡Bienvenido a mi Portafolio!</h2>
+        <p>"Sonríe para la vida, no solo para la foto".</p>
+    </section>
+
+    <!-- GALERÍA -->
+    <section id="portafolio" class="fullscreen-section">
+        <h2 class="titulo-con-contorno">Portafolio</h2>
+        <div class="gallery">
+            
+	    <img src="{{ url_for('static', filename='images/XV_JANELL1.jpg') }}" alt="Foto 1" width="200" loading="lazy">
+      <img src="{{ url_for('static', filename='images/XV_JANELL2.jpg') }}" alt="Foto 2" width="200" loading="lazy">
+      <img src="{{ url_for('static', filename='images/XV_JANELL3.jpg') }}" alt="Foto 3" width="200" loading="lazy">
+	    <img src="{{ url_for('static', filename='images/XV_JANELL4.jpg') }}" alt="Foto 4" width="200" loading="lazy">
+      <img src="{{ url_for('static', filename='images/XV_JANELL5.jpg') }}" alt="Foto 5" width="200" loading="lazy">
+      <img src="{{ url_for('static', filename='images/XV_JANELL6.jpg') }}" alt="Foto 6" width="200" loading="lazy">
+	    <img src="{{ url_for('static', filename='images/XV_JANELL7.jpg') }}" alt="Foto 7" width="200" loading="lazy">
+      <img src="{{ url_for('static', filename='images/XV_JANELL8.jpg') }}" alt="Foto 8" width="200" loading="lazy">
+      <img src="{{ url_for('static', filename='images/XV_JANELL9.jpg') }}" alt="Foto 9" width="200" loading="lazy">
+	    <img src="{{ url_for('static', filename='images/XV_JANELL10.jpg') }}" alt="Foto 10" width="200" loading="lazy">
+      <img src="{{ url_for('static', filename='images/XV_JANELL11.jpg') }}" alt="Foto 11" width="200" loading="lazy">
+      <img src="{{ url_for('static', filename='images/XV_JANELL12.jpg') }}" alt="Foto 12" width="200" loading="lazy">
+	    <img src="{{ url_for('static', filename='images/XV_JANELL13.jpg') }}" alt="Foto 13" width="200" loading="lazy">
+
+      <img src="{{ url_for('static', filename='images/XV_DICIEMBRE1.jpg') }}" alt="Foto 1" width="200" loading="lazy">
+      <img src="{{ url_for('static', filename='images/XV_DICIEMBRE2.jpg') }}" alt="Foto 2" width="200" loading="lazy">
+	    <img src="{{ url_for('static', filename='images/XV_DICIEMBRE3.jpg') }}" alt="Foto 3" width="200" loading="lazy">
+      <img src="{{ url_for('static', filename='images/XV_DICIEMBRE4.jpg') }}" alt="Foto 4" width="200" loading="lazy">
+      <img src="{{ url_for('static', filename='images/XV_DICIEMBRE5.jpg') }}" alt="Foto 5" width="200" loading="lazy">
+	    <img src="{{ url_for('static', filename='images/XV_DICIEMBRE6.jpg') }}" alt="Foto 6" width="200" loading="lazy">
+
+      <img src="{{ url_for('static', filename='images/FLORES_MAR1.jpg') }}" alt="Foto 1" width="200" loading="lazy">
+	    <img src="{{ url_for('static', filename='images/FLORES_MAR2.jpg') }}" alt="Foto 2" width="200" loading="lazy">
+	    <img src="{{ url_for('static', filename='images/FLORES_MAR3.jpg') }}" alt="Foto 3" width="200" loading="lazy">
+	    <img src="{{ url_for('static', filename='images/FLORES_MAR4.jpg') }}" alt="Foto 4" width="200" loading="lazy">
+
+      <img src="{{ url_for('static', filename='images/MUERTOS_DAY1.jpg') }}" alt="Foto 1" width="200" loading="lazy">
+	    <img src="{{ url_for('static', filename='images/MUERTOS_DAY2.jpg') }}" alt="Foto 2" width="200" loading="lazy">
+      <img src="{{ url_for('static', filename='images/MUERTOS_DAY3.jpg') }}" alt="Foto 3" width="200" loading="lazy">
+      <img src="{{ url_for('static', filename='images/MUERTOS_DAY4.jpg') }}" alt="Foto 4" width="200" loading="lazy">
+	    <img src="{{ url_for('static', filename='images/MUERTOS_DAY5.jpg') }}" alt="Foto 5" width="200" loading="lazy">
+
+      <img src="{{ url_for('static', filename='images/VERDE_YIYO1.jpg') }}" alt="Foto 1" width="200" loading="lazy">
+      <img src="{{ url_for('static', filename='images/VERDE_YIYO2.jpg') }}" alt="Foto 2" width="200" loading="lazy">
+	    <img src="{{ url_for('static', filename='images/VERDE_YIYO3.jpg') }}" alt="Foto 3" width="200" loading="lazy">
+
+      <img src="{{ url_for('static', filename='images/MOTO_JESUS1.jpg') }}" alt="Foto 1" width="200" loading="lazy">
+	    <img src="{{ url_for('static', filename='images/MOTO_JESUS2.jpg') }}" alt="Foto 2" width="200" loading="lazy">
+      <img src="{{ url_for('static', filename='images/MOTO_JESUS3.jpg') }}" alt="Foto 3" width="200" loading="lazy">
+	    <img src="{{ url_for('static', filename='images/MOTO_JESUS4.jpg') }}" alt="Foto 4" width="200" loading="lazy">
+
+      <img src="{{ url_for('static', filename='images/RETRATO_IBERIA1.jpg') }}" alt="Foto 1" width="200" loading="lazy">
+	    <img src="{{ url_for('static', filename='images/RETRATO_IBERIA2.jpg') }}" alt="Foto 2" width="200" loading="lazy">
+	    <img src="{{ url_for('static', filename='images/RETRATO_IBERIA3.jpg') }}" alt="Foto 3" width="200" loading="lazy">
+      <img src="{{ url_for('static', filename='images/RETRATO_IBERIA4.jpg') }}" alt="Foto 4" width="200" loading="lazy">
+	    <img src="{{ url_for('static', filename='images/RETRATO_IBERIA5.jpg') }}" alt="Foto 5" width="200" loading="lazy">
+
+      <img src="{{ url_for('static', filename='images/RETRATO_PERIODICO1.jpg') }}" alt="Foto 1" width="200" loading="lazy">
+	    <img src="{{ url_for('static', filename='images/RETRATO_PERIODICO2.jpg') }}" alt="Foto 2" width="200" loading="lazy">
+	    <img src="{{ url_for('static', filename='images/RETRATO_PERIODICO3.jpg') }}" alt="Foto 3" width="200" loading="lazy">
+      <img src="{{ url_for('static', filename='images/RETRATO_PERIODICO4.jpg') }}" alt="Foto 4" width="200" loading="lazy">
+	    <img src="{{ url_for('static', filename='images/RETRATO_PERIODICO5.jpg') }}" alt="Foto 5" width="200" loading="lazy">
+
+      <img src="{{ url_for('static', filename='images/SESION_PINK1.jpg') }}" alt="Foto 1" width="200" loading="lazy">
+	    <img src="{{ url_for('static', filename='images/SESION_PINK2.jpg') }}" alt="Foto 2" width="200" loading="lazy">
+	    <img src="{{ url_for('static', filename='images/SESION_PINK3.jpg') }}" alt="Foto 3" width="200" loading="lazy">
+      <img src="{{ url_for('static', filename='images/SESION_PINK4.jpg') }}" alt="Foto 4" width="200" loading="lazy">
+	    <img src="{{ url_for('static', filename='images/SESION_PINK5.jpg') }}" alt="Foto 5" width="200" loading="lazy">
+
+      <img src="{{ url_for('static', filename='images/RETRATO_MANUEL2.jpg') }}" alt="Foto 1" width="200" loading="lazy">
+      <img src="{{ url_for('static', filename='images/RETRATO_MANUEL1.jpg') }}" alt="Foto 2" width="200" loading="lazy">
+	    <img src="{{ url_for('static', filename='images/RETRATO_MANUEL3.jpg') }}" alt="Foto 3" width="200" loading="lazy">
+
+      <img src="{{ url_for('static', filename='images/SESION_MAR2.webp') }}" alt="Foto 1" width="200" loading="lazy">
+			<img src="{{ url_for('static', filename='images/SESION_MAR3.webp') }}" alt="Foto 2" width="200" loading="lazy">
+			<img src="{{ url_for('static', filename='images/SESION_MAR5.webp') }}" alt="Foto 3" width="200" loading="lazy">
+			<img src="{{ url_for('static', filename='images/SESION_MAR6.webp') }}" alt="Foto 4" width="200" loading="lazy">
+			<img src="{{ url_for('static', filename='images/SESION_MAR13.webp') }}" alt="Foto 5" width="200" loading="lazy">
+			<img src="{{ url_for('static', filename='images/SESION_MAR14.webp') }}" alt="Foto 6" width="200" loading="lazy">
+			<img src="{{ url_for('static', filename='images/SESION_MAR18.webp') }}" alt="Foto 7" width="200" loading="lazy">
+			<img src="{{ url_for('static', filename='images/SESION_MAR19.webp') }}" alt="Foto 8" width="200" loading="lazy">
+			<img src="{{ url_for('static', filename='images/SESION_MAR20.webp') }}" alt="Foto 9" width="200" loading="lazy">
+			<img src="{{ url_for('static', filename='images/SESION_MAR21.webp') }}" alt="Foto 10" width="200" loading="lazy">
+
+        </div>
+        
+    </section>
+    
+    <section id="paquetes" class="fullscreen-section">
+  <h2>Paquetes</h2>
+  <p>Consulta nuestros paquetes de fotografía y video por categoría.</p>
+
+  <div class="paquetes-contenedor">
+
+    <!-- Paquete: XV Años -->
+    <div class="categoria-paquete">
+      <button class="toggle-btn"><i class="fas fa-crown"></i> XV Años</button>
+      <div class="contenido-paquete">
+        <div class="paquete">
+          <h4>Paquete Esencial <span class="precio">$5,000 MXN</span></h4>
+          <ul>
+	    <li>Cobertura del evento (hasta 5 hrs).</li>
+            <li>300 fotos digitales del evento.</li>
+            <li>8 fotos de sesión previa.</li>
+            <li>Video Full HD del evento "Cobertura de ceremonia y recepción".</li>
+	    <li>USB personalizada.</li>
+          </ul>
+        </div>
+
+   <div class="paquete paquete-ideal">
+          <h4>Paquete Ideal <span class="precio">$6,500 MXN</span></h4>
+          <ul>
+	    <li>Cobertura del evento (hasta 8 hrs).</li>
+            <li>500 fotos digitales del evento.</li>
+            <li>12 fotos de sesión previa.</li>
+            <li>Video Full HD del evento "Cobertura de ceremonia y recepción".</li>
+	    <li>Video memorial.</li>
+	    <li>USB personalizada.</li>
+          </ul>
+        </div>
+
+        <div class="paquete">
+          <h4>Paquete Completo <span class="precio">$8,000 MXN</span></h4>
+          <ul>
+            <li>Cobertura completa del evento (hasta 10 hrs).</li>
+   	    <li>700 fotos digitales del evento.</li>
+    	    <li>16 fotos de sesión previa.</li>
+    	    <li>Video Full HD del evento "Cobertura de preparación, ceremonia y recepción".</li>
+	    <li>Video memorial.</li>
+    	    <li>USB personalizada.</li>
+	    <li>Acordeon de 15 fotografias impresas (10x15cm aprox.)</li>
+    	    <li>🖼️Retrato impreso tamaño 30x40 cm, laminado y montado (foto de la sesión previa).</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- Paquete: Bodas -->
+    <div class="categoria-paquete">
+      <button class="toggle-btn"><i class="fas fa-ring"></i> Bodas</button>
+      <div class="contenido-paquete">
+        <div class="paquete">
+          <h4>Paquete Esencial <span class="precio">$6,500 MXN</span></h4>
+          <ul>
+            <li>400 fotos digitales del evento</li>
+	    <li>Cobertura de hasta 8 hrs.</li>
+            <li>Video Full HD del evento "Cobertura de ceremonia y recepción"</li>
+            <li>16 fotos de sesión previa.</li>
+	    <li>USB personalizada.</li>
+          </ul>
+        </div>
+        <div class="paquete paquete-ideal">
+          <h4>Paquete Ideal <span class="precio">$8,000 MXN</span></h4>
+          <ul>
+            <li>600 fotos digitales del evento</li>
+	    <li>Cobertura de hasta 8 hrs.</li>
+            <li>Video Full HD del evento "Cobertura de preparación, ceremonia y recepción"</li>
+            <li>20 fotos de sesión previa</li>
+	    <li>Video memorial</li>
+            <li>USB personalizado</li>
+	    <li>🖼️Retrato impreso tamaño 40x50cm aprox. laminado y montado (foto de la sesión previa).</li>
+          </ul>
+        </div>
+	<div class="paquete">
+          <h4>Paquete Completo <span class="precio">$9,500 MXN</span></h4>
+          <ul>
+            <li>800 fotos digitales del evento</li>
+	    <li>Cobertura de hasta 10 hrs.</li>
+            <li>Video Full HD del evento "Cobertura de preparación, ceremonia y recepción"</li>
+            <li>2 sesiones previas (formal e informal) de 15 fotografias c/u</li>
+	    <li>Video memorial</li>
+            <li>USB personalizado</li>
+	    <li>🖼️Retrato impreso tamaño 40x50cm aprox. laminado y montado (foto de la sesión previa).</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- Paquete: Eventos Generales -->
+    <div class="categoria-paquete">
+      <button class="toggle-btn"><i class="fas fa-camera-retro"></i> Eventos Generales</button>
+      <div class="contenido-paquete">
+        <div class="paquete">
+          <h4>Paquete Esencial <span class="precio">$2,500 MXN</span></h4>
+          <ul>
+            <li>150 fotos digitales.</li>
+            <li>Video Full HD del evento.</li>
+	    <li>Hasta 5 hrs de cobertura</li>
+            <li>USB perzonalizada</li>
+          </ul>
+        </div>
+        <div class="paquete">
+          <h4>Paquete Ideal <span class="precio">$3,500 MXN</span></h4>
+          <ul>
+            <li>200 fotos editadas</li>
+            <li>Video Full HD del evento.</li>
+            <li>Hasta 5 horas de cobertura</li>
+	    <li>5 fotos de sesión previa.</li>
+	    <li>USB perzonalizada</li>
+          </ul>
+        </div>
+	<div class="paquete paquete-ideal">
+          <h4>Paquete Completo <span class="precio">$4,500 MXN</span></h4>
+          <ul>
+            <li>250 fotos editadas</li>
+            <li>Video Full HD del evento.</li>
+            <li>Hasta 8 horas de cobertura</li>
+	    <li>8 fotos de sesión previa.</li>
+	    <li>Acordeon de 10 fotografias impresas (10x15cm aprox.)</li>
+	    <li>USB perzonalizada</li>
+	  </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- Paquete: Sesiones Fotográficas -->
+    <div class="categoria-paquete">
+      <button class="toggle-btn"><i class="fas fa-portrait"></i> Sesiones Fotográficas</button>
+      <div class="contenido-paquete">
+
+        <div class="paquete">
+          <h4>Sesión individual Básica<span class="precio">$450 MXN</span></h4>
+          <ul>
+            <li>12 fotos editadas</li>
+            <li>1 locación</li>
+	    <li>1 vestuario</li>
+            <li>Duración: 45 min</li>
+          </ul>
+        </div>
+
+        <div class="paquete">
+          <h4>Sesión individual Completa <span class="precio">$700 MXN</span></h4>
+          <ul>
+            <li>20 fotos editadas</li>
+            <li>2 locaciones</li>
+            <li>2 vestuarios</li>
+            <li>Duración: 45min x locación</li>
+          </ul>
+        </div>
+
+	<div class="paquete">
+          <h4>Sesión en pareja Básica<span class="precio">$650 MXN</span></h4>
+          <ul>
+            <li>16 fotos editadas</li>
+            <li>1 locación</li>
+	    <li>1 vestuario</li>
+            <li>Duración: 1hr</li>
+          </ul>
+        </div>
+        <div class="paquete">
+          <h4>Sesión en pareja Completa<span class="precio">$900 MXN</span></h4>
+          <ul>
+            <li>24 fotos editadas</li>
+            <li>2 locaciones</li>
+            <li>2 vestuarios</li>
+            <li>Duración: 45min x locación</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+    
+    <section id="sobremi">
+	<div class="sobremi-container">
+        <div class="sobremi-foto">
+            <!-- Reemplaza con tu imagen -->
+            <img src="{{ url_for('static', filename='images/RETRATO.jpg') }}" alt="Julian - Fotógrafo" loading="lazy">
+        </div>
+        <div class="sobremi-texto">
+        <h2>Sobre mí</h2>
+        <p>Soy José Julián Tapia Bello, fotógrafo de Orizaba, Ver. Soy apasionado por capturar momentos inolvidables que cuentan historias únicas. Trabajo principalmente en eventos sociales y retratos. Cada proyecto lo veo como una oportunidad para crear recuerdos que duren para siempre, por lo que creo firmemente en que los mejores resultados se logran cuando hay confianza, pasión y dedicación.</p>
+	 </div>
+    </div>
+    </section>
+    
+    <section id="contacto">
+	<div class="contacto">
+        <h2>Contacto</h2>
+        <p>WhatsApp: <a href="https://wa.me/52721700251"><i class="fas fa-phone"></i> 2721700251</a></p>
+        <p>Instagram: <a href="https://instagram.com/j.juliantapbe" target="_blank"><i class="fab fa-instagram"></i> j.juliantapbe</a></p>
+	</div>
+    </section>
+    
+    <footer>
+        <p>&copy; 2025 JulianTapBe. Todos los derechos reservados.</p>
+    </footer>
+
+    <!-- Modal -->
+    <div id="modal" class="modal">
+        <img id="modal-img" class="modal-content">
+        <span id="close-modal" class="close">&times;</span>
+    </div>
+
+    <!-- Script principal -->
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+
+</body>
+</html>
