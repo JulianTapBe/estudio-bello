@@ -192,9 +192,9 @@ def logout():
 def crear_admin():
     from werkzeug.security import generate_password_hash
 
-    nombre = "Julian"
+    nombre = "José Julian Tapia Bello"
     email = "juliantapbe.2004@gmail.com"   # tu correo admin
-    password = generate_password_hash("123456", method='pbkdf2:sha256')
+    password = generate_password_hash("july.youtuber", method='pbkdf2:sha256')
 
     if User.query.filter_by(email=email).first():
         return "El usuario admin ya existe"
