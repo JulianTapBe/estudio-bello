@@ -187,28 +187,7 @@ def logout():
     flash("Has cerrado sesión correctamente.", "info")
     return redirect(url_for('login'))
 
-# ------------------ CREAR ADMIN TEMPORAL ------------------
-@app.route('/crear_admin')
-def crear_admin():
-    from werkzeug.security import generate_password_hash
 
-    nombre = "José Julian Tapia Bello"
-    email = "juliantapbe.2004@gmail.com"   # tu correo admin
-    password = generate_password_hash("july.youtuber", method='pbkdf2:sha256')
-
-    if User.query.filter_by(email=email).first():
-        return "El usuario admin ya existe"
-
-    admin = User(
-        nombre=nombre,
-        email=email,
-        password=password,
-        is_admin=True
-    )
-    db.session.add(admin)
-    db.session.commit()
-
-    return "Administrador creado correctamente"
 
 
 # ------------------ ADMINISRADOR ------------------
