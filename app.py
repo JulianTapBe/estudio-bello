@@ -74,7 +74,7 @@ login_manager.login_view = 'login'  # si no estás logeado, te manda al login
 # -----------------------------------------------------------
 class User(UserMixin, db.Model):
     __tablename__ = 'usuarios'
-    
+
     id = db.Column(db.Integer, primary_key=True)
     nombre = db.Column(db.String(150))
     email = db.Column(db.String(150), unique=True)
@@ -265,6 +265,12 @@ def guardar_seleccion():
     db.session.commit()
 
     return {"status": "ok"}
+
+@app.route('/crear_tablas')
+def crear_tablas():
+    db.create_all()
+    return "Tablas creadas correctamente"
+
 
 # -----------------------------------------------------------
 # 🚀 INICIO DEL SERVIDOR
