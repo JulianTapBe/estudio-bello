@@ -24,9 +24,20 @@ app = Flask(__name__)
 # 🔐 SECRET KEY DESDE VARIABLES DE ENTORNO
 app.secret_key = os.environ.get("SECRET_KEY", "dev_key")
 
-# Base de datos SQLite
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///database.db'
+# 📌 BASE DE DATOS: PostgreSQL en producción, SQLite en local
+DATABASE_URL = os.getenv("DATABASE_URL")
+
+if DATABASE_URL:
+    # Render usa PostgreSQL (psycopg2 requiere este cambio)
+    if DATABASE_URL.startswith("postgres://"):
+        DATABASE_URL = DATABASE_URL.replace("postgres://", "postgresql://")
+    app.config['SQLALCHEMY_DATABASE_URI'] = DATABASE_URL
+else:
+    # Modo local → SQLite
+    app.config['SQLALCHEMY_DATABASE_URI'] = "sqlite:///database.db"
+
 db = SQLAlchemy(app)
+
 
 # Configuración para subida de archivos
 UPLOAD_FOLDER = os.path.join(app.root_path, 'static', 'clientes')
