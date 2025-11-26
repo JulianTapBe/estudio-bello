@@ -266,11 +266,6 @@ def guardar_seleccion():
 
     return {"status": "ok"}
 
-@app.route('/crear_tablas')
-def crear_tablas():
-    db.create_all()
-    return "Tablas creadas correctamente"
-
 
 # -----------------------------------------------------------
 # 🚀 INICIO DEL SERVIDOR
