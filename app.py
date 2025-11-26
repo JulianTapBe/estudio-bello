@@ -38,6 +38,10 @@ else:
 
 db = SQLAlchemy(app)
 
+# 🔧 Crear tablas automáticamente en PRODUCCIÓN
+with app.app_context():
+    db.create_all()
+
 
 # Configuración para subida de archivos
 UPLOAD_FOLDER = os.path.join(app.root_path, 'static', 'clientes')
