@@ -12,6 +12,9 @@ from werkzeug.security import generate_password_hash, check_password_hash
 import os
 from werkzeug.utils import secure_filename
 from flask_mail import Mail, Message
+import sib_api_v3_sdk
+from sib_api_v3_sdk.rest import ApiException
+
 
 # -----------------------------------------------------------
 # 🔧 CONFIGURACIÓN BÁSICA
@@ -251,11 +254,6 @@ def editar_cliente(user_id):
 
     return render_template('editar_cliente.html', usuario=usuario)
 
-# Función para enviar correos
-def enviar_correo(destinatario, asunto, mensaje):
-    msg = Message(asunto, recipients=[destinatario])
-    msg.body = mensaje
-    mail.send(msg)
 
 #------------------GUARDAR SELECCIÓN-------------------------
 @app.route('/guardar_seleccion', methods=['POST'])
@@ -269,6 +267,28 @@ def guardar_seleccion():
 
     return {"status": "ok"}
 
+def enviar_correo(destinatario, asunto, mensaje):
+    configuration = sib_api_v3_sdk.Configuration()
+    configuration.api_key['api-key'] = os.getenv("BREVO_API_KEY")
+
+    api_instance = sib_api_v3_sdk.TransactionalEmailsApi(
+        sib_api_v3_sdk.ApiClient(configuration)
+    )
+
+    email = sib_api_v3_sdk.SendSmtpEmail(
+        to=[{"email": destinatario}],
+        sender={"email": os.getenv("BREVO_SENDER"), "name": "Estudio Bello"},
+        subject=asunto,
+        html_content=mensaje.replace("\n", "<br>")  # para que se vea bien en email
+    )
+
+    try:
+        api_instance.send_transac_email(email)
+        print(f"Correo enviado a {destinatario}")
+        return True
+    except ApiException as e:
+        print("Error al enviar correo (Brevo API):", e)
+        return False
 
 # -----------------------------------------------------------
 # 🚀 INICIO DEL SERVIDOR
