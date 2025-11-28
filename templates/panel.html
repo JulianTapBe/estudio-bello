@@ -2,118 +2,163 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>Mi Panel - Estudio Bello</title>
+    <title>Panel del Cliente - Estudio Bello</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/panel.css') }}">
-    <!-- Favicon -->
     <link rel="icon" href="{{ url_for('static', filename='images/LOGO favicon.ico') }}" type="image/x-icon">
+
+    <style>
+        .galeria {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+        }
+        .foto-container {
+            border: 3px solid transparent;
+            border-radius: 10px;
+            overflow: hidden;
+            transition: 0.2s;
+            cursor: pointer;
+        }
+        .foto-container img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+        .seleccionada {
+            border-color: #6a00ff;
+            box-shadow: 0 0 10px #6a00ff;
+        }
+        .guardar-btn {
+            margin-top: 20px;
+            padding: 12px 20px;
+            background: #6a00ff;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        .guardar-btn:hover {
+            background: #5800d4;
+        }
+    </style>
 </head>
+
 <body>
-    <div class="panel-container">
-        <header>
-            <h1>Bienvenido, {{ nombre }}</h1>
-            <h2>Panel de cliente - Estudio Bello</h2>
-        </header>
 
-        <div class="info">
-            <p><strong>Correo:</strong> {{ email }}</p>
-            <p><strong>Paquete contratado:</strong> {{ paquete if paquete else "Sin asignar aún" }}</p>
-        </div>
+<div class="panel-container">
 
-        <div class="archivos">
-            <div class="archivo-item">
-                <span>📄 Contrato:</span>
-                {% if contrato %}
-                    <a href="{{ url_for('static', filename='clientes/' + contrato) }}" download>Descargar</a>
-                {% else %}
-                    <span>No disponible</span>
-                {% endif %}
-            </div>
+    <header>
+        <h1>Bienvenido, {{ nombre }}</h1>
+        <h2>Panel de Cliente - Estudio Bello</h2>
+    </header>
 
-            <div class="archivo-item">
-                <span>📸 Fotos:</span>
-                {% if fotos %}
-                    <a href="{{ url_for('static', filename='clientes/' + fotos) }}" download>Descargar</a>
-                {% else %}
-                    <span>No disponible</span>
-                {% endif %}
-            </div>
-
-            <div class="archivo-item">
-                <span>🎬 Video:</span>
-                {% if video %}
-                    <a href="{{ url_for('static', filename='clientes/' + video) }}" download>Descargar</a>
-                {% else %}
-                    <span>No disponible</span>
-                {% endif %}
-            </div>
-        </div>
-
-        <!-- 🖼️ SELECCIÓN DE FOTOS -->
-        <h3>Selecciona tus fotos favoritas</h3>
-        <p>Puedes elegir hasta {{ limite_fotos }} fotos.</p>
-
-        <div class="galeria">
-            {% for i in range(1, total_fotos + 1) %}
-            <div class="foto" onclick="toggleSeleccion('{{ i }}')">
-                <img src="{{ url_for('static', filename='clientes/' + nombre + '/preseleccion/' + i|string + '.jpg') }}" alt="Foto {{ i }}">
-            </div>
-            {% endfor %}
-        </div>
-
-        <button class="guardar-btn" onclick="guardarSeleccion()">Guardar selección</button>
-
-        <script>
-            const limite_fotos = {{ limite_fotos|tojson }};
-            const seleccionadas = new Set();
-
-            function toggleSeleccion(id) {
-                const foto = document.querySelector(`img[alt='Foto ${id}']`);
-                if (seleccionadas.has(id)) {
-                    seleccionadas.delete(id);
-                    foto.parentElement.classList.remove('seleccionada');
-                } else if (seleccionadas.size < limite_fotos) {
-                    seleccionadas.add(id);
-                    foto.parentElement.classList.add('seleccionada');
-                } else {
-                    alert("Has alcanzado el límite de selección.");
-                }
-            }
-
-            async function guardarSeleccion() {
-                const seleccion = Array.from(seleccionadas);
-                const res = await fetch("/guardar_seleccion", {
-                    method: "POST",
-                    headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify({ seleccion })
-                });
-                if (res.ok) alert("¡Selección guardada exitosamente!");
-                else alert("Hubo un error al guardar la selección.");
-            }
-
-            document.addEventListener("contextmenu", e => e.preventDefault());
-
-            // Cargar selección guardada
-{% if seleccionadas %}
-const seleccion_inicial = "{{ seleccionadas }}".split(",");
-seleccion_inicial.forEach(id => {
-    if (id.trim() !== "") {
-        seleccionadas.add(id);
-        const foto = document.querySelector(`img[alt='Foto ${id}']`);
-        if (foto) foto.parentElement.classList.add('seleccionada');
-    }
-});
-{% endif %}
-        </script>
-
-        <div class="acciones">
-            <a href="{{ url_for('index') }}">Volver al inicio</a>
-            <a href="{{ url_for('logout') }}">Cerrar sesión</a>
-        </div>
-
-        <footer>
-            &copy; 2025 Estudio Bello | Todos los derechos reservados
-        </footer>
+    <div class="info">
+        <p><strong>Correo:</strong> {{ email }}</p>
+        <p><strong>Paquete contratado:</strong> {{ paquete if paquete else "Sin asignar aún" }}</p>
     </div>
+
+    <div class="archivos">
+        <div class="archivo-item">
+            <span>📄 Contrato:</span>
+            {% if contrato %}
+                <a href="{{ contrato }}" target="_blank">Abrir</a>
+            {% else %}
+                <span>No disponible</span>
+            {% endif %}
+        </div>
+
+        <div class="archivo-item">
+            <span>📸 Fotos (ZIP descargable):</span>
+            {% if fotos %}
+                {% if "," not in fotos %}
+                    <a href="{{ fotos }}" download>Descargar</a>
+                {% else %}
+                    <span>Las fotos están disponibles abajo para selección.</span>
+                {% endif %}
+            {% else %}
+                <span>No disponible</span>
+            {% endif %}
+        </div>
+
+        <div class="archivo-item">
+            <span>🎬 Video:</span>
+            {% if video %}
+                <a href="{{ video }}" target="_blank">Ver video</a>
+            {% else %}
+                <span>No disponible</span>
+            {% endif %}
+        </div>
+    </div>
+
+    <!-- 🌟 SELECCIÓN DE FOTOS -->
+    {% if fotos and "," in fotos %}
+    <h3>Selecciona tus fotos favoritas</h3>
+    <p>Puedes elegir hasta {{ limite_fotos }} fotos.</p>
+
+    {% set lista = fotos.split(",") %}
+    <div class="galeria">
+        {% for url in lista %}
+        <div class="foto-container" onclick="toggleSeleccion({{ loop.index }})" id="foto{{ loop.index }}">
+            <img src="{{ url }}" alt="Foto {{ loop.index }}">
+        </div>
+        {% endfor %}
+    </div>
+
+    <button class="guardar-btn" onclick="guardarSeleccion()">Guardar selección</button>
+
+    {% else %}
+    <h3>No hay fotos subidas para selección todavía.</h3>
+    {% endif %}
+
+    <div class="acciones">
+        <a href="{{ url_for('index') }}">Volver al inicio</a>
+        <a href="{{ url_for('logout') }}">Cerrar sesión</a>
+    </div>
+
+    <footer>
+        &copy; 2025 Estudio Bello | Todos los derechos reservados
+    </footer>
+</div>
+
+<script>
+    const limite_fotos = {{ limite_fotos }};
+    let seleccionadas = new Set();
+
+    function toggleSeleccion(id) {
+        const foto = document.getElementById(`foto${id}`);
+
+        if (seleccionadas.has(id)) {
+            seleccionadas.delete(id);
+            foto.classList.remove("seleccionada");
+        } else {
+            if (seleccionadas.size >= limite_fotos) {
+                alert("Has alcanzado el límite permitido.");
+                return;
+            }
+            seleccionadas.add(id);
+            foto.classList.add("seleccionada");
+        }
+    }
+
+    async function guardarSeleccion() {
+        const seleccion = Array.from(seleccionadas);
+
+        const res = await fetch("/guardar_seleccion", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ seleccion })
+        });
+
+        if (res.ok) {
+            alert("¡Selección guardada exitosamente!");
+        } else {
+            alert("Error al guardar selección.");
+        }
+    }
+</script>
+
 </body>
 </html>

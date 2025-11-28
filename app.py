@@ -14,6 +14,8 @@ from werkzeug.utils import secure_filename
 from flask_mail import Mail, Message
 import sib_api_v3_sdk
 from sib_api_v3_sdk.rest import ApiException
+import cloudinary
+import cloudinary.uploader
 
 
 # -----------------------------------------------------------
@@ -23,6 +25,14 @@ from sib_api_v3_sdk.rest import ApiException
 import os
 
 app = Flask(__name__)
+
+# Configuración de Cloudinary
+cloudinary.config(
+    cloud_name=os.environ.get("CLOUDINARY_URL").split("@")[1],
+    api_key=os.environ.get("CLOUDINARY_URL").split("://")[1].split(":")[0],
+    api_secret=os.environ.get("CLOUDINARY_URL").split(":")[2].split("@")[0]
+)
+
 
 # 🔐 SECRET KEY DESDE VARIABLES DE ENTORNO
 app.secret_key = os.environ.get("SECRET_KEY", "dev_key")
@@ -84,7 +94,7 @@ class User(UserMixin, db.Model):
     password = db.Column(db.String(150))
     paquete = db.Column(db.String(100))  # Ejemplo: "Paquete Esencial", "Paquete Ideal"
     contrato = db.Column(db.String(200)) # Ruta del archivo PDF
-    fotos = db.Column(db.String(200))    # Ruta carpeta ZIP o enlace de fotos
+    fotos = db.Column(db.Text)     # aquí guardarás múltiples URLs separadas por comas
     video = db.Column(db.String(200))    # Ruta del video
     is_admin = db.Column(db.Boolean, default=False)  # 👈 nuevo campo
     seleccionadas = db.Column(db.String(500))  # Guarda nombres separados por comas
@@ -238,18 +248,57 @@ def editar_cliente(user_id):
     usuario = User.query.get_or_404(user_id)
 
     if request.method == 'POST':
-        # Actualizar campos de texto
+
+        # --------------------------------------------------------
+        # ACTUALIZAR PAQUETE
+        # --------------------------------------------------------
         usuario.paquete = request.form['paquete']
 
-        # Subir archivos
-        for campo, carpeta in [('contrato', 'contrato'), ('fotos', 'fotos'), ('video', 'video')]:
-            file = request.files.get(campo)
-            if file and allowed_file(file.filename):
-                filename = secure_filename(file.filename)
-                file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
-                setattr(usuario, campo, filename)
+        # --------------------------------------------------------
+        # SUBIR MÚLTIPLES FOTOS A CLOUDINARY
+        # --------------------------------------------------------
+        fotos = request.files.getlist("fotos[]")
+        urls_fotos = []
 
+        for file in fotos:
+            if file and file.filename:
+                upload = cloudinary.uploader.upload(
+                    file,
+                    folder=f"clientes/{usuario.nombre}/fotos"
+                )
+                urls_fotos.append(upload["secure_url"])
+
+        # Si hay nuevas fotos, guardarlas
+        if urls_fotos:
+            usuario.fotos = ",".join(urls_fotos)
+
+        # --------------------------------------------------------
+        # SUBIR CONTRATO
+        # --------------------------------------------------------
+        contrato = request.files.get("contrato")
+        if contrato and contrato.filename:
+            upload = cloudinary.uploader.upload(
+                contrato,
+                folder=f"clientes/{usuario.nombre}/contrato"
+            )
+            usuario.contrato = upload["secure_url"]
+
+        # --------------------------------------------------------
+        # SUBIR VIDEO
+        # --------------------------------------------------------
+        video = request.files.get("video")
+        if video and video.filename:
+            upload = cloudinary.uploader.upload(
+                video,
+                resource_type="video",
+                folder=f"clientes/{usuario.nombre}/video"
+            )
+            usuario.video = upload["secure_url"]
+
+        # GUARDAR CAMBIOS
         db.session.commit()
+
+        flash("Datos actualizados correctamente", "success")
         return redirect(url_for('admin'))
 
     return render_template('editar_cliente.html', usuario=usuario)
